@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Feedback alegra{% endblock %}
+
+{% block content %}
+        <main class="page">
+            <div class="card">
+                <p class="card-eyebrow">Tu opinión importa</p>
+                <h1 class="card-title">Déjanos tu comentario</h1>
+                <p class="card-subtitle">Cuéntanos cómo ha sido tu experiencia con nuestros productos.</p>
+                <hr class="divider">
+                <form method="post">
+                    <div class="field">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" name="nombre" id="nombre" autocomplete="on" placeholder="Opcional">
+                    </div>
+                    <div class="field">
+                        <label for="producto">Producto <span class="accent">*</span></label>
+                        <select name="producto" id="producto" required>
+                            <option value="" disabled selected>Selecciona un producto</option>
+                            {% for product in PRODUCTS %}
+                                <option value="{{ product }}">{{ product }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="comentario">Comentario <span class="accent">*</span></label>
+                        <textarea name="comentario" id="comentario" autocomplete="off" placeholder="¿Cómo podemos mejorar?" required></textarea>
+                    </div>
+                    <p class="required-note"><span class="accent">*</span> Campos requeridos</p>
+                    <button type="submit" class="submit-btn">Enviar comentario</button>
+                </form>
+            </div>
+        </main>
+{% endblock content %}

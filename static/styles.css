@@ -1,0 +1,166 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: #F5F4F0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: #1a1a1a;
+}
+
+.header {
+    background: #ffffff;
+    border-bottom: 1px solid #E8E6E0;
+    padding: 1rem 2.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.header-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    color: #1a1a1a;
+    letter-spacing: -0.02em;
+}
+
+.accent {
+    color: #E85D26;
+}
+
+.page {
+    flex: 1;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+}
+
+.card {
+    background: #ffffff;
+    border: 1px solid #E8E6E0;
+    border-radius: 16px;
+    padding: 2.5rem 3rem;
+    width: 100%;
+    max-width: 480px;
+}
+
+.card-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #00d6bc;
+    margin-bottom: 0.5rem;
+}
+
+.card-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.75rem;
+    color: #1a1a1a;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+}
+
+.card-subtitle {
+    font-size: 0.9rem;
+    color: #6B6860;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.divider {
+    border: none;
+    border-top: 1px solid #E8E6E0;
+    margin-bottom: 2rem;
+}
+
+.field {
+    margin-bottom: 1.25rem;
+}
+
+label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #444;
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.01em;
+}
+
+input[type="text"],
+select,
+textarea {
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: #1a1a1a;
+    background: #FAFAF8;
+    border: 1px solid #D8D6D0;
+    border-radius: 8px;
+    padding: 0.65rem 0.875rem;
+    outline: none;
+    transition: border-color 0.15s, background 0.15s;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+input[type="text"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #00d6bc;
+    background: #ffffff;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #AEACA5;
+}
+
+select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236B6860' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.875rem center;
+    padding-right: 2.5rem;
+    cursor: pointer;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 120px;
+    line-height: 1.6;
+}
+
+.required-note {
+    font-size: 0.75rem;
+    color: #AEACA5;
+    margin-bottom: 1.5rem;
+}
+
+.submit-btn {
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #ffffff;
+    background: #1a1a1a;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    margin-top: 0.5rem;
+}
+
+.submit-btn:hover {
+    background: #00d6bc;
+}
+
+.submit-btn:active {
+    transform: scale(0.99);
+}
