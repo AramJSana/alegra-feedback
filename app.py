@@ -13,7 +13,7 @@ SUMMARY = "=summary()"
 
 # Setup for the Google Sheets API
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
-creds = Credentials.from_service_account_file("./KEYS/alegra-feedback-032d95ea506d.json", scopes=SCOPES)
+creds = Credentials.from_service_account_file("./KEYS/googlekey.json", scopes=SCOPES)
 client = gspread.authorize(creds)
 sheet = client.open_by_key("1llU1xHQS3loVhMLypi-ub3gym31dBz132xzm9ZSESmw").sheet1
 

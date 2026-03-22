@@ -1,0 +1,155 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=3cm, right=3cm, headheight=15pt]{geometry}
+\usepackage{mathptmx}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{minted}
+\usepackage{float}
+\usepackage{hyperref}
+
+\hypersetup{colorlinks=true, linkcolor=black, urlcolor=blue, citecolor=black}
+
+\definecolor{LightGray}{gray}{0.95}
+\usemintedstyle{pastie}
+
+\titleformat{\section}{\large\bfseries}{}{0em}{}[\titlerule]
+\titleformat{\subsection}{\normalsize\bfseries}{}{0em}{}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Documentación Técnica}
+\rfoot{\thepage}
+\lfoot{Aram Sana}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\AtBeginDocument{\renewcommand{\today}{%
+  \number\day\ de \ifcase\month\or enero\or febrero\or marzo\or
+  abril\or mayo\or junio\or julio\or agosto\or septiembre\or
+  octubre\or noviembre\or diciembre\fi\ de \number\year}}
+
+\title{
+  \vspace{-1cm}
+  {\large Documentación Técnica} \\[0.4em]
+  {\LARGE \textbf{Plataforma de Feedback}}
+}
+\author{Aram Sana}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{fancy}
+
+\tableofcontents
+\clearpage
+
+\section{Descripción General}
+
+Este proyecto implementa una plataforma centralizada de recolección y análisis de retroalimentación para productos de Alegra. El sistema permite a los usuarios enviar comentarios a través de una interfaz web, los cuales se almacenan automáticamente en una hoja de cálculo de Google Sheets. Cada registro es procesado por funciones de Apps Script que utilizan la API de Gemini y el modelo de Gemma para clasificar el sentimiento del comentario y generar un resumen automatizado. Los resultados se visualizan en un dashboard interactivo de Looker Studio.
+
+El sistema está compuesto por tres capas: una aplicación web en Flask que gestiona la captura del feedback, una hoja de cálculo de Google Sheets como base de datos, y un conjunto de funciones de Apps Script que ejecutan el análisis con inteligencia artificial.
+
+\section{Requisitos Previos}
+
+Para ejecutar el proyecto es necesario contar con Python 3.10 o superior, una cuenta de Google con acceso a Google Sheets y Google Cloud, y una clave de API de Gemini. Las dependencias de Python se instalan a través del archivo \texttt{requirements.txt} incluido en el repositorio.
+
+\section{Instalación y Configuración}
+
+\subsection{Clonar el repositorio}
+
+\begin{minted}[frame=single, bgcolor=LightGray, fontsize=\footnotesize, baselinestretch=1.2, linenos]{bash}
+git clone https://github.com/AramJSana/alegra-feedback.git
+cd alegra-feedback
+\end{minted}
+
+\subsection{Crear el entorno virtual e instalar dependencias}
+
+\begin{minted}[frame=single, bgcolor=LightGray, fontsize=\footnotesize, baselinestretch=1.2, linenos]{bash}
+python -m venv .venv
+source .venv/Scripts/activate
+pip install -r requirements.txt
+\end{minted}
+
+\subsection{Configurar las credenciales de Google}
+
+Es necesario crear un proyecto en Google Cloud Console, habilitar la API de Google Sheets, y generar una cuenta de servicio con permiso de editor. El archivo JSON de credenciales debe colocarse en la carpeta \texttt{KEYS/} en la raíz del proyecto con el nombre exacto que se referencia en \texttt{app.py} o en su defecto modificar el código para cambiar el nombre del archivo. 
+
+Una vez creada la cuenta de servicio, se le comparte acceso a la hoja de cálculo con permisos de editor.
+
+\subsection{Configurar Apps Script}
+
+Los archivos \texttt{sentiment.gs} y \texttt{summary.gs} deben copiarse en el editor de Apps Script de la hoja de cálculo. La clave de API de Gemini se configura como una propiedad de script teniendo como objetivo evitar exponerla en el código fuente. En el editor de Apps Script, navegar a Proyecto, Propiedades del script, y agregar una propiedad llamada \texttt{GEMINI\_API\_KEY} con el valor de la clave obtenida desde Google AI Studio.
+
+\section{Estructura del Proyecto}
+
+\begin{longtable}{ll}
+\textbf{Archivo} & \textbf{Descripción} \\
+\midrule
+\endfirsthead
+\textbf{Archivo} & \textbf{Descripción} \\
+\midrule
+\endhead
+\endlastfoot
+\texttt{app.py} & Aplicación principal en Flask \\
+\texttt{requirements.txt} & Dependencias de Python \\
+\texttt{sentiment.gs} & Función de Apps Script para clasificación de sentimiento \\
+\texttt{summary.gs} & Función de Apps Script para generación de resumen \\
+\texttt{templates/base.html} & Plantilla base HTML \\
+\texttt{templates/index.html} & Formulario de captura de feedback \\
+\texttt{templates/success.html} & Página de confirmación de envío \\
+\texttt{templates/error.html} & Página de error \\
+\texttt{static/styles.css} & Estilos de la interfaz \\
+\texttt{KEYS/googlekey.json} & Credenciales de la cuenta de servicio\\
+\end{longtable}
+
+\section{Ejecución}
+
+Con el entorno virtual activo, ejecutar el servidor de desarrollo con el siguiente comando:
+
+\begin{minted}[frame=single, bgcolor=LightGray, fontsize=\footnotesize, baselinestretch=1.2, linenos]{bash}
+flask run
+\end{minted}
+
+La aplicación estará disponible en la IP local por defecto \texttt{http://127.0.0.1:5000}.
+
+\section{Flujo de Datos}
+
+El usuario completa el formulario con su nombre (opcional), el producto que desea evaluar y su comentario. Al enviar el formulario, la aplicación Flask valida los datos, sanitiza las entradas para prevenir inyección de fórmulas en la hoja de cálculo, y agrega una nueva fila en Google Sheets con la marca de tiempo, producto, comentario, nombre del usuario, y las fórmulas \texttt{=sentiment()} y \texttt{=summary()} en las columnas correspondientes. La marca de tiempo sigue el formato que se encontraba en la base de datos inicial, provisionada por Alegra.
+
+Cuando Apps Script evalúa estas fórmulas, consulta la API de Gemini con el contenido del comentario. La función \texttt{sentiment()} retorna un valor numérico de 0 (negativo), 1 (neutral) o 2 (positivo) o un valor textual de ``NULL'' en caso de que el comentario sea spam o no sea inteligible. La función \texttt{summary()} retorna un resumen breve en español generado por el modelo. \texttt{summary()} también revisa si el comentario es spam y en caso de que sea así retorna ``Opinión inválida''; esto con el objetivo de limpiar datos basura.
+
+\section{Sanitización de Entradas}
+
+Para prevenir que un usuario inyecte fórmulas en la hoja de cálculo mediante los campos de texto, la aplicación aplica la siguiente función de sanitización antes de escribir cualquier valor proporcionado por el usuario:
+
+\begin{minted}[frame=single, bgcolor=LightGray, fontsize=\footnotesize, baselinestretch=1.2, linenos]{python}
+def sanitize(value):
+    if value and value[0] in ("=", "+", "-", "@"):
+        value = "'" + value
+    return value
+\end{minted}
+
+Cualquier valor que comience con un carácter que Google Sheets interpretaría como fórmula recibe un apóstrofo como prefijo, lo que fuerza a la celda a tratarlo como texto.
+
+\section{Recursos}
+
+\begin{description}
+  \item[Repositorio] Código fuente del proyecto en GitHub. \\
+    \href{https://github.com/AramJSana/alegra-feedback}{Abrir en Github}
+
+  \item[Hoja de cálculo] Base de datos en Google Sheets. \\
+    \href{https://docs.google.com/spreadsheets/d/1llU1xHQS3loVhMLypi-ub3gym31dBz132xzm9ZSESmw/edit?usp=sharing}{Abrir en Google Sheets}
+
+  \item[Dashboard] Dashboard en Looker Studio. \\
+    \href{https://lookerstudio.google.com/reporting/aa34c5ba-0c2a-41a2-957d-bf4df6ef1a73}{Abrir en Looker Studio}
+\end{description}
+
+\end{document}

@@ -1,0 +1,13 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {section}{\numberline {1}Descripción General}{2}{section.1}%
+\contentsline {section}{\numberline {2}Requisitos Previos}{2}{section.2}%
+\contentsline {section}{\numberline {3}Instalación y Configuración}{2}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Clonar el repositorio}{2}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Crear el entorno virtual e instalar dependencias}{2}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Configurar las credenciales de Google}{2}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Configurar Apps Script}{2}{subsection.3.4}%
+\contentsline {section}{\numberline {4}Estructura del Proyecto}{3}{section.4}%
+\contentsline {section}{\numberline {5}Ejecución}{3}{section.5}%
+\contentsline {section}{\numberline {6}Flujo de Datos}{3}{section.6}%
+\contentsline {section}{\numberline {7}Sanitización de Entradas}{3}{section.7}%
+\contentsline {section}{\numberline {8}Recursos}{4}{section.8}%

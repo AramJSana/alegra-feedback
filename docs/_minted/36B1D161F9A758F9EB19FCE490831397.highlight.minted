@@ -1,0 +1,4 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+git\PYG{+w}{ }clone\PYG{+w}{ }https://github.com/AramJSana/alegra\PYGZhy{}feedback.git
+\PYG{n+nb}{cd}\PYG{+w}{ }alegra\PYGZhy{}feedback
+\end{MintedVerbatim}
